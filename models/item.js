@@ -7,10 +7,11 @@ const ItemSchema = new Schema({
   price: { type: Number, required: true },
   quantity: { type: Number, required: true },
   category: { type: Schema.Types.ObjectId, ref: "Category", required: true },
+  imageUrl: { type: String },
 });
 
 ItemSchema.virtual("url").get(function () {
-  return `/category/item/${this._id}`;
+  return `/category/${this.category}/item/${this._id}`;
 });
 
 module.exports = mongoose.model("Item", ItemSchema);

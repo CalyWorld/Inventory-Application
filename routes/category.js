@@ -16,24 +16,31 @@ router.get("/category/:id", category_controller.category_detail);
 router.get("/category", category_controller.category_list);
 
 //Item Routes
-router.get("/category/:id/items", item_controller.item_list);
-router.get("/category/:id/items/create", item_controller.item_create_get);
-router.post("/category/:id/items/create", item_controller.item_create_post);
+router.get("/category/:categoryId/item", item_controller.item_list);
 router.get(
-  "/category/:id/items/:itemId/delete",
+  "/category/:categoryId/item/create",
+  item_controller.item_create_get,
+);
+router.post(
+  "/category/:categoryId/item/create",
+  item_controller.item_create_post,
+);
+router.get(
+  "/category/:categoryId/item/:itemId/delete",
   item_controller.item_delete_get,
 );
 router.post(
-  "/category/:id/items/:itemId/delete",
+  "/category/:categoryId/item/:itemId/delete",
   item_controller.item_delete_post,
 );
 router.get(
-  "/category/:id/items/:itemId/update",
+  "/category/:categoryId/item/:itemId/update",
   item_controller.item_update_get,
 );
 router.post(
-  "/category/:id/items/:itemId/update",
+  "/category/:categoryId/item/:itemId/update",
   item_controller.item_update_post,
 );
-router.get("/category/:id/items/:itemId", item_controller.item_detail);
+router.get("/category/:categoryId/item/:itemId", item_controller.item_detail);
+
 module.exports = router;
