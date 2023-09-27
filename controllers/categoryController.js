@@ -3,6 +3,7 @@ const Item = require("../models/item");
 const asyncHandler = require("express-async-handler");
 
 exports.index = asyncHandler(async (req, res, next) => {
+  const category_list = await Category.find({}, "name").exec();
   const [numCategories, numItems, numAvailableCategories, numAvailableItems] =
     await Promise.all([
       Category.countDocuments({}).exec(),
@@ -10,25 +11,21 @@ exports.index = asyncHandler(async (req, res, next) => {
       Category.countDocuments({ status: "Available" }).exec(),
       Item.countDocuments({ status: "Available" }).exec(),
     ]);
+  console.log(category_list);
   res.render("index", {
     title: "Inventory Application",
     category_count: numCategories,
     item_count: numItems,
     category_count_available: numAvailableCategories,
     item_count_available: numAvailableItems,
-  });
-});
-
-exports.category_list = asyncHandler(async (req, res, next) => {
-  const category_list = await Category.find({}, "name").exec();
-  console.log(category_list);
-  res.render("layout", {
     category_list: category_list,
   });
 });
 
+exports.category_list = asyncHandler(async (req, res, next) => {});
+
 exports.category_detail = asyncHandler(async (req, res, next) => {
-  res.send("Get Category detail");
+  res.send("GET DETAIL OF CATEGORY");
 });
 
 exports.category_create_get = asyncHandler(async (req, res, next) => {
