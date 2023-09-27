@@ -16,7 +16,13 @@ html(lang='en')
             ul(class='sidebar-nav')
               li
                 a(href='/category') Home
-                hr
+              if category_list
+                each category in category_list
+                  li
+                    a(href=category.url) #{category.name}
+              else
+                li No categories available
+              hr
               li
                 a(href='/category/create') Create Categories
               li 

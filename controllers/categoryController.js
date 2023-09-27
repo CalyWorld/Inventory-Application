@@ -20,7 +20,11 @@ exports.index = asyncHandler(async (req, res, next) => {
 });
 
 exports.category_list = asyncHandler(async (req, res, next) => {
-  res.send("Get Category list");
+  const category_list = await Category.find({}, "name").exec();
+  console.log(category_list);
+  res.render("layout", {
+    category_list: category_list,
+  });
 });
 
 exports.category_detail = asyncHandler(async (req, res, next) => {
