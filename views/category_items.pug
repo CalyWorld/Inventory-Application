@@ -1,4 +1,39 @@
 extends layout
 
 block content
-  h1= title
+  title Category Details
+  
+  style.
+    .flex-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px; /* Adjust this value for spacing between images */
+    }
+    .item {
+      border: 1px solid #ddd;
+      padding: 10px;
+      width: 250px; /* Adjust this value for item container width */
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+    .item img {
+      width: 100%; /* Adjust this value for image width */
+      height: 150px; /* Adjust this value for image height */
+      object-fit: cover; /* This will make sure the images are resized properly */
+      margin-bottom: 10px;
+    }
+    .item-name {
+      font-weight: bold;
+    }
+    .item-price {
+      color: #0077cc;
+    }
+
+  h1= category.name
+
+  .flex-container
+    each item in category_item
+      .item
+        img(src=item.imageUrl alt=item.name)
+        .item-name= item.name
+        .item-description= item.description
+        .item-price= "$" + item.price

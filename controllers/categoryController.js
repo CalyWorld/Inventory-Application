@@ -24,8 +24,15 @@ exports.index = asyncHandler(async (req, res, next) => {
 exports.category_list = asyncHandler(async (req, res, next) => {});
 
 exports.category_detail = asyncHandler(async (req, res, next) => {
+  const [category, category_item] = await Promise.all([
+    Category.findById(req.params.id).exec(),
+    Item.find({ category: req.params.id }).exec(),
+  ]);
+
+  console.log({ category }, { category_item });
   res.render("category_items", {
-    title: "Selected Category Item",
+    category: category,
+    category_item: category_item,
   });
 });
 
