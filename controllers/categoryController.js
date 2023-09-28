@@ -11,7 +11,6 @@ exports.index = asyncHandler(async (req, res, next) => {
       Category.countDocuments({ status: "Available" }).exec(),
       Item.countDocuments({ status: "Available" }).exec(),
     ]);
-  console.log(category_list);
   res.render("index", {
     title: "Inventory Application",
     category_count: numCategories,
@@ -25,7 +24,9 @@ exports.index = asyncHandler(async (req, res, next) => {
 exports.category_list = asyncHandler(async (req, res, next) => {});
 
 exports.category_detail = asyncHandler(async (req, res, next) => {
-  res.send("GET DETAIL OF CATEGORY");
+  res.render("category_items", {
+    title: "Selected Category Item",
+  });
 });
 
 exports.category_create_get = asyncHandler(async (req, res, next) => {

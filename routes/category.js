@@ -5,14 +5,13 @@ const item_controller = require("../controllers/itemController");
 
 //GET CATEGORIES HOME PAGE
 router.get("/", category_controller.index);
-router.get("/category", category_controller.category_list);
-router.get("/category/create", category_controller.category_create_get);
-router.post("/category/create", category_controller.category_create_post);
-router.get("/category/:id/delete", category_controller.category_delete_get);
-router.post("/category/:id/delete", category_controller.category_delete_post);
-router.get("/category/:id/update", category_controller.category_update_get);
-router.post("/category/:id/update", category_controller.category_update_post);
-router.get("/category/:id", category_controller.category_detail);
+router.get("/create", category_controller.category_create_get);
+router.post("/create", category_controller.category_create_post);
+router.get("/:id", category_controller.category_detail);
+router.get("/:id/delete", category_controller.category_delete_get);
+router.post("/:id/delete", category_controller.category_delete_post);
+router.get("/:id/update", category_controller.category_update_get);
+router.post("/:id/update", category_controller.category_update_post);
 
 //Item Routes
 router.get("/category/:categoryId/item", item_controller.item_list);
