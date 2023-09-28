@@ -14,6 +14,7 @@ block content
       padding: 10px;
       width: 250px; /* Adjust this value for item container width */
       box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      position: relative;
     }
     .item img {
       width: 100%; /* Adjust this value for image width */
@@ -27,6 +28,25 @@ block content
     .item-price {
       color: #0077cc;
     }
+    .item-buttons {
+      margin-top: 10px;
+    }
+    .item-button {
+      margin-right: 5px;
+      padding: 5px 10px;
+      font-size: 14px;
+      border: none;
+      border-radius: 3px;
+      cursor: pointer;
+    }
+    .edit-button {
+      background-color: #0077cc;
+      color: white;
+    }
+    .delete-button {
+      background-color: #cc0000;
+      color: white;
+    }
 
   h1= category.name
 
@@ -37,3 +57,6 @@ block content
         .item-name= item.name
         .item-description= item.description
         .item-price= "$" + item.price
+        .item-buttons
+          a.item-button.edit-button(href=`/items/${item._id}/edit`) Edit
+          a.item-button.delete-button(href=`/items/${item._id}/delete`) Delete

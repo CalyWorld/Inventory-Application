@@ -1,0 +1,57 @@
+extends layout
+
+block content
+  title title
+
+  style.
+    .form-container {
+      max-width: 500px;
+      margin: 0 auto;
+      padding: 20px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+    .form-group {
+      margin-bottom: 20px;
+    }
+    label {
+      display: block;
+      margin-bottom: 10px;
+      font-weight: bold;
+    }
+    input[type="text"], textarea {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      font-size: 16px;
+    }
+    button {
+      padding: 10px 15px;
+      background-color: #0077cc;
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+
+  .form-container
+    if errors
+      ul
+        for error in errors
+          li!= error.msg
+
+    form(action='' method='POST')
+      .form-group
+        label(for='name') Category Name
+        input#name.form-control(type='text' placeholder='Enter Category name' name='name' required='true' value=(undefined === category ? '' : category.name))
+
+      .form-group
+        label(for='description') Category Description
+        textarea#description.form-control(name='description' rows='4' required) 
+          | #{undefined === category ? '' : category.description}
+
+      .form-group
+        button(type='submit') Create Category

@@ -1,6 +1,7 @@
 const Category = require("../models/category");
 const Item = require("../models/item");
 const asyncHandler = require("express-async-handler");
+const { body, validationResult } = require("express-validator");
 
 exports.index = asyncHandler(async (req, res, next) => {
   const category_list = await Category.find({}, "name").exec();
@@ -37,12 +38,35 @@ exports.category_detail = asyncHandler(async (req, res, next) => {
 });
 
 exports.category_create_get = asyncHandler(async (req, res, next) => {
-  res.send("GET Form Submission on Create");
+  res.render("category_form", {
+    title: "Create Category",
+  });
 });
 
-exports.category_create_post = asyncHandler(async (req, res, next) => {
-  res.send("POST Form Submission on Create");
-});
+exports.category_create_post = [
+  body("name", "Name must not be empty").trim().isLength({ min: 1 }).escape(),
+  body("description", "Description must not be empty")
+    .trim()
+    .isLength({ min: 10 })
+    .escape(),
+  asyncHandler(async (req, res, next) => {
+    const errors = validationResult(req);
+    const category = new Category({
+      name: req.body.name,
+      description: req.body.description,
+    });
+    if (!errors.isEmpty()) {
+      res.render("category_form", {
+        title: "Create Category",
+        category: category,
+        errors: errors.array(),
+      });
+    } else {
+      await category.save();
+      res.redirect(category.url);
+    }
+  }),
+];
 
 exports.category_delete_get = asyncHandler(async (req, res, next) => {
   res.send("GET Form Submission on Delete");
