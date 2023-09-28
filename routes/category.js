@@ -15,14 +15,8 @@ router.post("/:id/update", category_controller.category_update_post);
 
 //Item Routes
 router.get("/category/:categoryId/item", item_controller.item_list);
-router.get(
-  "/category/:categoryId/item/create",
-  item_controller.item_create_get,
-);
-router.post(
-  "/category/:categoryId/item/create",
-  item_controller.item_create_post,
-);
+router.get("/item/create", item_controller.item_create_get);
+router.post("/item/create", item_controller.item_create_post);
 router.get(
   "/category/:categoryId/item/:itemId/delete",
   item_controller.item_delete_get,
