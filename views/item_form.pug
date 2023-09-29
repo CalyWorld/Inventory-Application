@@ -40,34 +40,27 @@ block content
   .form-container
     form(action='' method='POST')
       .form-group
-           label(for='category') Category:
-      select#category.form-control(type='select', placeholder='Select category' name='category' required='true' )
-        for category in category_list
-          if item
-            option(value=category._id selected=(category._id.toString()===item.category._id.toString() ? 'selected' : false) ) #{category.name}
-          else
-            option(value=category._id) #{category.name}
-
-      .form-group
         label(for='name') Item Name
         input#name.form-control(type='text' name='name' placeholder='Enter item name' required='true' value=(undefined===item ? '' : item.name))
-
+      .form-group
+        label(for='category') Category:
+        select#category.form-control(type='select', placeholder='Select category' name='category' required='true')
+          for category in category_list
+            if item
+              option(value=category._id selected=(category._id.toString()===item.category._id.toString() ? 'selected' : false)) #{category.name}
+            else
+              option(value=category._id) #{category.name}
       .form-group
         label(for='description') Description
-        textarea#description.form-control(name='description' rows='4' required='true' value=(undefined===item ? '' : item.description ))
-
-    
+        textarea#description.form-control(name='description' rows='4' required='true' value=(undefined===item ? '' : item.description))
       .form-group
         label(for='price') Price
         input#price.form-control(type='text' name='price' placeholder='Enter price' required='true' value=(undefined===item ? '' : item.price))
-
       .form-group
         label(for='quantity') Quantity
         input#quantity.form-control(type='number' name='quantity' placeholder='Enter quantity' required='true' value=(undefined===item ? '' : item.quantity))
-
       .form-group
         label(for='imageUrl') Image URL
         input#imageUrl.form-control(type='text' name='imageUrl' placeholder='Enter image URL' required='true' value=(undefined===item ? '' : item.imageUrl))
-
       .form-group
         button(type='submit') Create Item

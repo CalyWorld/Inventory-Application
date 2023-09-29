@@ -29,8 +29,6 @@ exports.category_detail = asyncHandler(async (req, res, next) => {
     Category.findById(req.params.id).exec(),
     Item.find({ category: req.params.id }).exec(),
   ]);
-
-  console.log({ category }, { category_item });
   res.render("category_items", {
     category: category,
     category_item: category_item,

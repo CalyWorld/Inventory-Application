@@ -58,5 +58,5 @@ block content
         .item-description= item.description
         .item-price= "$" + item.price
         .item-buttons
-          a.item-button.edit-button(href=`/items/${item._id}/edit`) Edit
-          a.item-button.delete-button(href=`/items/${item._id}/delete`) Delete
+          a.item-button.edit-button(href=`/${category._id}/${item._id}/update`) Edit
+          a.item-button.delete-button(href=`/${category._id}/${item._id}/delete`) Delete
