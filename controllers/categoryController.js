@@ -22,9 +22,14 @@ exports.index = asyncHandler(async (req, res, next) => {
   });
 });
 
-exports.category_list = asyncHandler(async (req, res, next) => {});
+exports.category_list = asyncHandler(async (req, res, next) => {
+  const category_list = await Category.find({}, "name").exec();
+  res.render("layout", {
+    category_list: category_list,
+  });
+});
 
-exports.category_detail = asyncHandler(async (req, res, next) => {
+exports.category_items = asyncHandler(async (req, res, next) => {
   const [category, category_item] = await Promise.all([
     Category.findById(req.params.id).exec(),
     Item.find({ category: req.params.id }).exec(),
@@ -67,11 +72,34 @@ exports.category_create_post = [
 ];
 
 exports.category_delete_get = asyncHandler(async (req, res, next) => {
-  res.send("GET Form Submission on Delete");
+  const [category, category_items] = await Promise.all([
+    Category.findById(req.params.id).exec(),
+    Item.find({ category: req.params.id }).populate("category").exec(),
+  ]);
+  if (category === null) {
+    res.redirect("/");
+  }
+  res.render("category_delete", {
+    category: category,
+    category_items: category_items,
+  });
+  console.log({ category: category, itemInsideCategory: category_items });
 });
 
 exports.category_delete_post = asyncHandler(async (req, res, next) => {
-  res.send("POST Form Submission on Delete");
+  const [category, category_items] = await Promise.all([
+    Category.findById(req.params.id).exec(),
+    Item.find({ category: req.params.id }).populate("category").exec(),
+  ]);
+  if (category_items.length > 0) {
+    res.render("category_delete", {
+      category: category,
+      category_items: category_items,
+    });
+  } else {
+    await Category.findByIdAndRemove(req.body.categoryid);
+    res.redirect("/");
+  }
 });
 
 exports.category_update_get = asyncHandler(async (req, res, next) => {
