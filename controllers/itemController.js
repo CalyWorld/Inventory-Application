@@ -23,12 +23,10 @@ exports.item_create_post = [
     .escape(),
   body("price", "Price must not be empty").isInt({ gt: 0 }),
   body("quantity", "Quantity must not be empty").isInt({ gt: 0 }),
-  body("imageUrl", "URL must not be empty")
-    .trim()
-    .isLength({ min: 1 })
-    .escape(),
+  body("imageUrl", "URL must not be empty").trim().isLength({ min: 1 }),
   asyncHandler(async (req, res, next) => {
     const errors = validationResult(req);
+    const category_list = await Category.find().exec();
     const item = new Item({
       name: req.body.name,
       description: req.body.description,
@@ -38,7 +36,6 @@ exports.item_create_post = [
       category: req.body.category,
     });
     if (!errors.isEmpty()) {
-      const category_list = await Category.find().exec();
       res.render("item_form", {
         title: "Create an Item",
         category_list: category_list,
@@ -48,6 +45,7 @@ exports.item_create_post = [
     } else {
       await item.save();
       res.redirect(item.url);
+      console.log(category_list, item);
     }
   }),
 ];
