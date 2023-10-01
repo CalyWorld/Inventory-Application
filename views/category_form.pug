@@ -38,10 +38,11 @@ block content
     }
     h1{
        margin: 0 auto;
-       max-width: 700px;
+       display:flex; 
+       justify-content:center;
        margin-bottom: 20px;
     }
-  h1= `Update ${category.name} Category`
+  h1= "Create Category"
   .form-container
     if errors
       ul
@@ -58,4 +59,4 @@ block content
         textarea#description.form-control(name='description' rows='4' required='true' value=(undefined === category ? '' : category.description))
 
       .form-group
-        button(type='submit') Create Category
+        button(type='submit') Submit
