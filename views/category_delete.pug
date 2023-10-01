@@ -1,8 +1,7 @@
 extends layout
 
 block content
-  title Category Details
-
+  h1= category.name
   style.
     .flex-container {
       display: flex;
@@ -49,19 +48,23 @@ block content
       color: white;
     }
 
-  h1= category.name
+  if category_items.length > 0
+    p #[strong Delete the following items before attempting to delete this Category.]
+    .flex-container
+      each item in category_items
+        .item
+          img(src=item.imageUrl alt=item.name)
+          .item-name= item.name
+          .item-description= item.description
+          .item-price= "$" + item.price
+          .item-buttons
+            a.item-button.edit-button(href=`/${category._id}/${item._id}/update`) Edit
+            a.item-button.delete-button(href=`/${category._id}/${item._id}/delete`) Delete
+  else
+    p Do you really want to delete this Category?
 
-  .flex-container
-    each item in category_item
-      .item
-        img(src=item.imageUrl alt=item.name)
-        .item-name= item.name
-        .item-description= item.description
-        .item-price= "$" + item.price
-        .item-buttons
-          a.item-button.edit-button(href=`/${category._id}/${item._id}/update`) Edit
-          a.item-button.delete-button(href=`/${category._id}/${item._id}/delete`) Delete
+    form(method='POST' action='')
+      div.form-group
+        input#authorid.form-control(type='hidden', name='categoryid', required='true', value=category._id)
 
-  .item-buttons
-   a.item-button.edit-button(href=`/${category._id}/update-category`) Edit Category
-    a.item-button.delete-button(href=`/${category._id}/delete-category`) Delete Category
+      button.btn.btn-primary(type='submit') Delete

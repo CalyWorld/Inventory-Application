@@ -51,11 +51,24 @@ exports.item_create_post = [
 ];
 
 exports.item_delete_get = asyncHandler(async (req, res, next) => {
-  res.send("GET Form Submission on Delete");
+  const category_item = await Item.findById(req.params.itemId)
+    .populate("category")
+    .exec();
+  if (category_item === null) {
+    res.redirect("/");
+  }
+  res.render("item_delete", {
+    category_item: category_item,
+  });
 });
 
 exports.item_delete_post = asyncHandler(async (req, res, next) => {
-  res.send("POST Form Submission on Delete");
+  const category = await Item.findById(req.params.itemId)
+    .populate("category")
+    .exec();
+  let category_items = category.category;
+  await Item.findByIdAndRemove(req.params.itemId);
+  res.redirect(category_items.url);
 });
 
 exports.item_update_get = asyncHandler(async (req, res, next) => {
