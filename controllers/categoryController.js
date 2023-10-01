@@ -59,6 +59,7 @@ exports.category_create_post = [
       description: req.body.description,
     });
     if (!errors.isEmpty()) {
+      const category = await Category.find().exec();
       res.render("category_form", {
         title: "Create Category",
         category: category,
@@ -114,6 +115,33 @@ exports.category_update_get = asyncHandler(async (req, res, next) => {
   });
 });
 
-exports.category_update_post = asyncHandler(async (req, res, next) => {
-  res.send("POST Form Submission on Update");
-});
+exports.category_update_post = [
+  body("name", "Name must not be empty").trim().isLength({ min: 1 }).escape(),
+  body("description", "Description must not be empty")
+    .trim()
+    .isLength({ min: 10 })
+    .escape(),
+  asyncHandler(async (req, res, next) => {
+    const errors = validationResult(req);
+    const category = new Category({
+      name: req.body.name,
+      description: req.body.description,
+      _id: req.params.id,
+    });
+    if (!errors.isEmpty()) {
+      const category = await Category.find().exec();
+      res.render("category_form", {
+        title: "Create Category",
+        category: category,
+        errors: errors.array(),
+      });
+    } else {
+      const updatedCategory = await Category.findByIdAndUpdate(
+        req.params.id,
+        category,
+        {},
+      );
+      res.redirect(updatedCategory.url);
+    }
+  }),
+];
