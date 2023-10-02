@@ -22,12 +22,12 @@ exports.index = asyncHandler(async (req, res, next) => {
   });
 });
 
-exports.category_list = asyncHandler(async (req, res, next) => {
-  const category_list = await Category.find({}, "name").exec();
-  res.render("layout", {
-    category_list: category_list,
-  });
-});
+// exports.category_list = asyncHandler(async (req, res, next) => {
+//   const category_list = await Category.find({}, "name").exec();
+//   res.render("layout", {
+//     category_list: category_list,
+//   });
+// });
 
 exports.category_items = asyncHandler(async (req, res, next) => {
   const [category, category_item] = await Promise.all([

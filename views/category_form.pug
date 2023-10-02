@@ -56,7 +56,7 @@ block content
 
       .form-group
         label(for='description') Category Description
-        textarea#description.form-control(name='description' rows='4' required='true' value=(undefined === category ? '' : category.description))
+        textarea#description.form-control(name='description' placeholder='Enter Description' rows='4' required='true' value=(undefined === category ? '' : category.description))
 
       .form-group
         button(type='submit') Submit
