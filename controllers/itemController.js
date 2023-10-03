@@ -55,11 +55,13 @@ exports.item_delete_get = asyncHandler(async (req, res, next) => {
   const category_item = await Item.findById(req.params.itemId)
     .populate("category")
     .exec();
+  const category_list = await Category.find({}, "name").exec();
   if (category_item === null) {
     res.redirect("/");
   }
   res.render("item_delete", {
     category_item: category_item,
+    category_list: category_list,
   });
 });
 
@@ -100,7 +102,7 @@ exports.item_update_post = [
   asyncHandler(async (req, res, next) => {
     const errors = validationResult(req);
     const category_list = await Category.find().exec();
-    const item = new Item({
+    let item = new Item({
       name: req.body.name,
       description: req.body.description,
       price: req.body.price,

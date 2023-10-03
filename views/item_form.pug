@@ -52,7 +52,7 @@ block content
               option(value=category._id) #{category.name}
       .form-group
         label(for='description') Description
-        textarea#description.form-control(name='description' rows='4' required='true' value=(undefined===item ? '' : item.description))
+        input#description.form-control(name='description' rows='4' required='true' value=(undefined===item ? '' : item.description))
       .form-group
         label(for='price') Price
         input#price.form-control(type='text' name='price' placeholder='Enter price' required='true' value=(undefined===item ? '' : item.price))

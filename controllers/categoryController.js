@@ -22,27 +22,24 @@ exports.index = asyncHandler(async (req, res, next) => {
   });
 });
 
-// exports.category_list = asyncHandler(async (req, res, next) => {
-//   const category_list = await Category.find({}, "name").exec();
-//   res.render("layout", {
-//     category_list: category_list,
-//   });
-// });
-
 exports.category_items = asyncHandler(async (req, res, next) => {
   const [category, category_item] = await Promise.all([
     Category.findById(req.params.id).exec(),
     Item.find({ category: req.params.id }).exec(),
   ]);
+  const category_list = await Category.find({}, "name").exec();
   res.render("category_items", {
     category: category,
     category_item: category_item,
+    category_list: category_list,
   });
 });
 
 exports.category_create_get = asyncHandler(async (req, res, next) => {
+  const category_list = await Category.find({}, "name").exec();
   res.render("category_form", {
     title: "Create Category",
+    category_list: category_list,
   });
 });
 
@@ -73,6 +70,7 @@ exports.category_create_post = [
 ];
 
 exports.category_delete_get = asyncHandler(async (req, res, next) => {
+  const category_list = await Category.find({}, "name").exec();
   const [category, category_items] = await Promise.all([
     Category.findById(req.params.id).exec(),
     Item.find({ category: req.params.id }).populate("category").exec(),
@@ -82,6 +80,7 @@ exports.category_delete_get = asyncHandler(async (req, res, next) => {
   }
   res.render("category_delete", {
     category: category,
+    category_list: category_list,
     category_items: category_items,
   });
 });
@@ -104,7 +103,7 @@ exports.category_delete_post = asyncHandler(async (req, res, next) => {
 
 exports.category_update_get = asyncHandler(async (req, res, next) => {
   const category = await Category.findById(req.params.id).exec();
-
+  const category_list = await Category.find({}, "name").exec();
   if (category === null) {
     const err = new Error("Category not found");
     err.status = 404;
@@ -112,6 +111,7 @@ exports.category_update_get = asyncHandler(async (req, res, next) => {
   }
   res.render("category_form", {
     category: category,
+    category_list: category_list,
   });
 });
 
