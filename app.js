@@ -4,10 +4,24 @@ const path = require("path");
 const cookieParser = require("cookie-parser");
 const logger = require("morgan");
 const mongoose = require("mongoose");
-const indexRouter = require("./routes/index");
 const categoryRouter = require("./routes/category");
+const compression = require("compression");
+const helmet = require("helmet");
 
 const app = express();
+const RateLimit = require("express-rate-limit");
+const limiter = RateLimit({
+  windowMs: 1 * 60 * 1000, // 1 minute
+  max: 20,
+});
+app.use(limiter);
+app.use(
+  helmet.contentSecurityPolicy({
+    directives: {
+      "script-src": ["'self'", "code.jquery.com", "cdn.jsdelivr.net"],
+    },
+  }),
+);
 
 require("dotenv").config();
 mongoose.set("strictQuery", false);
@@ -24,6 +38,7 @@ app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
+app.use(compression()); // Compress all routes
 app.use(express.static(path.join(__dirname, "public")));
 
 app.use("/", categoryRouter);
